@@ -1,4 +1,34 @@
 import telebot
+from telebot import types
+
+TOKEN = "ВСТАВЬ_СВОЙ_ТОКЕН_СЮДА"
+bot = telebot.TeleBot(TOKEN)
+@bot.message_handler(commands=['start'])
+def start(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    btn1 = types.KeyboardButton("ℹ️ О боте")
+    btn2 = types.KeyboardButton("📸 Фото")
+    btn3 = types.KeyboardButton("🌐 Сайт")
+    btn4 = types.KeyboardButton("❓ Помощь")
+    markup.add(btn1, btn2, btn3, btn4)
+    bot.send_message(message.chat.id, f"Привет, {message.from_user.first_name}! 👋\nВыбери действие ниже:", reply_markup=markup)
+@bot.message_handler(func=lambda message: True)
+def handle_message(message):
+    if message.text == "ℹ️ О боте":
+        bot.send_message(message.chat.id, "Я пример Telegram-бота, созданного на Python 🐍.")
+    elif message.text == "📸 Фото":
+        photo_url = "https://upload.wikimedia.org/wikipedia/commons/3/3a/Cat03.jpg"
+        bot.send_photo(message.chat.id, photo_url, caption="Вот фото 🐱")
+    elif message.text == "🌐 Сайт":
+        bot.send_message(message.chat.id, "Открой мой сайт: https://example.com 🌍")
+    elif message.text == "❓ Помощь":
+        bot.send_message(message.chat.id, "Напиши /start чтобы открыть меню снова 😊")
+    else:
+        bot.send_message(message.chat.id, "Я не понимаю эту команду 😅")
+print("🤖 Бот запущен с главным меню...")
+bot.polling()
+python bot.py
+я вставел в папку в блокнотеimport telebot
 from telebot import types  # для кнопок
 
 # 🔑 Вставь сюда свой токен
